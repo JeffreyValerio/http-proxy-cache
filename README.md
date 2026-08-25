@@ -1,10 +1,10 @@
-# HTTP Proxy con Caché - Versión Simple
+# HTTP Proxy con Caché
 
 ## ¿QUÉ ES UN PROXY HTTP?
 
-**Un proxy** es como un **intermediario** entre tú (cliente) y un servidor web.
+**Un proxy** es un **intermediario** entre el cliente y un servidor web.
 
-En lugar de conectarte directamente al servidor, te conectas al proxy, y **el proxy te conecta al servidor**.
+En lugar de conectarse directamente al servidor, la solicitud se enruta a través del proxy, que actúa como intermediario para establecer la conexión con el servidor.
 
 ```
 SIN PROXY:
@@ -16,7 +16,7 @@ Cliente → Proxy → Servidor
 
 ## ¿QUÉ ES CACHÉ?
 
-**Caché** es **memoria rápida** que guarda respuestas que ya pedimos.
+**Caché** es **memoria rápida** que almacena respuestas previamente obtenidas.
 
 ```
 Primera petición (CACHE MISS):
@@ -43,7 +43,7 @@ Cliente → Proxy → [Ya tiene en caché]
 ## ARQUITECTURA
 
 ```
-CLIENTE (tu navegador)
+CLIENTE
     │
     ▼
 PROXY (puerto 8888)
@@ -65,29 +65,22 @@ PROXY (puerto 8888)
 
 ## CÓMO FUNCIONA (paso a paso)
 
-### 1. Cliente hace petición
-```
-Cliente: "Dame la página /inicio"
-```
+### 1. Solicitud llega al proxy
+Se recibe una solicitud HTTP para un recurso.
 
 ### 2. Proxy verifica caché
-```
-Proxy: "¿/inicio está en mi caché?"
-```
+Se consulta si el recurso está almacenado en la caché.
 
-### 3a. Si está en caché (HIT)
-```
-Proxy: "¡Sí! Devuelvo desde caché"
-→ Cliente recibe RÁPIDO
-```
+### 3a. Caché HIT (está en caché)
+- El proxy devuelve la respuesta almacenada
+- No se contacta al servidor backend
+- Respuesta es inmediata (muy rápida)
 
-### 3b. Si NO está en caché (MISS)
-```
-Proxy: "No está. Pido al servidor..."
-→ Proxy: "Servidor me da la respuesta"
-→ Proxy: "Guardo en caché"
-→ Proxy: "Devuelvo al cliente"
-```
+### 3b. Caché MISS (no está en caché)
+- El proxy contacta al servidor backend
+- Recibe la respuesta del servidor
+- Almacena la respuesta en caché
+- Devuelve la respuesta al cliente
 
 ## INSTALACIÓN Y USO
 
@@ -167,6 +160,5 @@ curl -v http://localhost:8888/
 
 ---
 
-**Versión simplificada por:** Jeffrey Valerio  
 **Basada en:** arquitectura de proxies HTTP con caché  
-**Objetivo:** Entender cómo funciona un proxy con caché de forma SIMPLE
+**Objetivo:** Implementación simple de un proxy HTTP con caché en memoria
